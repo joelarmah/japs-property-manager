@@ -4,8 +4,8 @@ import { Card, CardBody, Button } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
-import TaskList from '../../components/TaskList';
-import TaskItem from '../../components/TaskItem';
+import TaskList from '../../../components/TaskList';
+import TaskItem from '../../../components/TaskItem';
 
 
 const Tasks = () => {

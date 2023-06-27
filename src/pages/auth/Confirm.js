@@ -6,6 +6,7 @@ import { Container, Row, Col, Card, CardBody, } from 'reactstrap';
 
 import { isUserAuthenticated } from '../../helpers/authUtils';
 import logo from '../../assets/images/logo.png';
+import { APP_NAME } from '../../constants/appConstants';
 
 class Confirm extends Component {
     _isMounted = false;
@@ -52,7 +53,7 @@ class Confirm extends Component {
                                         <div className="mx-auto mb-5">
                                             <a href="/">
                                                 <img src={logo} alt="" height="24" />
-                                                <h3 className="d-inline align-middle ml-1 text-logo">Getham</h3>
+                                                <h3 className="d-inline align-middle ml-1 text-logo">{APP_NAME}</h3>
                                             </a>
                                         </div>
                                         

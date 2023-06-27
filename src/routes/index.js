@@ -4,12 +4,19 @@ import { Route } from 'react-router-dom';
 import * as FeatherIcon from 'react-feather';
 
 import { isUserAuthenticated, getLoggedInUser } from '../helpers/authUtils';
-import Listings from '../pages/listings/Listings';
 import Guests from '../pages/guests/Guests';
 import Channels from '../pages/channels/Channels';
 import Bookings from '../pages/bookings/Bookings';
 import BookingDetail from '../pages/bookings/Detail';
+
+import Listings from '../pages/listings/List';
 import ListingDetail from '../pages/listings/Detail';
+import ListingNew from '../pages/listings/New';
+import Properties from '../pages/properties/List';
+import PropertyNew from '../pages/properties/New';
+import PropertyDetail from '../pages/properties/Detail';
+import MyAccount from '../pages/auth/MyAccount';
+
 
 // Auth
 const Login = React.lazy(() => import('../pages/auth/Login'));
@@ -59,7 +66,7 @@ const rootRoute = {
 const dashboardRoutes = {
     path: '/dashboard',
     name: 'Dashboard',
-    icon: FeatherIcon.Home,
+    icon: FeatherIcon.Monitor,
     // header: 'Navigation',
     // badge: {
     //     variant: 'success',
@@ -86,23 +93,77 @@ const listingsRoutes = {
     path: '/listings',
     name: 'Listings',
     icon: FeatherIcon.List,
-    // header: 'Navigation',
+    header: 'Listing Management',
     component: Listings,
-    exact: true,
-    roles: ['Admin'],
-    route: PrivateRoute
-};
-
-const listingDetailRoutes = {
-    path: '/listings/:id',
-    name: 'Listing Detail',
-    icon: FeatherIcon.List,
-    // header: 'Navigation',
-    component: ListingDetail,
-    exact: true,
     roles: ['Admin'],
     route: PrivateRoute,
-}
+    children: [
+        {
+            path: '/listings/',
+            name: 'List',
+            exact: true,
+            component: Listings,
+            route: Route,
+        },
+        {
+            path: '/listings/new',
+            name: 'New',
+            exact: true,
+            component: ListingNew,
+            route: Route,
+        },
+        {
+            path: '/listings/:id',
+            name: 'Detail',
+            exact: true,
+            component: ListingDetail,
+            route: Route,
+        }
+    ]
+};
+
+const propertiesRoutes = {
+    path: '/properties',
+    name: 'Properties',
+    icon: FeatherIcon.Home,
+    header: 'Property Management',
+    component: Properties,
+    roles: ['Admin'],
+    route: PrivateRoute,
+    children: [
+        {
+            path: '/properties/',
+            name: 'List',
+            exact: true,
+            component: Properties,
+            route: Route,
+        },
+        // {
+        //     path: '/properties/new',
+        //     name: 'New',
+        //     exact: true,
+        //     component: PropertyNew,
+        //     route: Route,
+        // },
+        {
+            path: '/properties/:id',
+            name: 'Detail',
+            exact: true,
+            component: PropertyDetail,
+            route: Route,
+        }
+    ]
+};
+
+// New Property
+const newPropertiesRoute = {
+    path: '/properties/new',
+    name: 'New Property',
+    exact: true,
+    component: PropertyNew,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
 
 // Calendar
 const calendarAppRoutes = {
@@ -134,17 +195,23 @@ const bookingsRoutes = {
     component: Bookings,
     exact: true,
     roles: ['Admin'],
-    route: PrivateRoute
-};
-
-const bookingDetailRoutes = {
-    path: '/bookings/:id',
-    name: 'Booking Detail',
-    icon: FeatherIcon.Book,
-    component: BookingDetail,
-    exact: true,
-    roles: ['Admin'],
-    route: PrivateRoute
+    route: PrivateRoute,
+    children: [
+        {
+            path: '/bookings',
+            name: 'List',
+            exact: true,
+            component: Bookings,
+            route: Route,
+        },
+        {
+            path: '/bookings/:id',
+            name: 'Detail',
+            exact: true,
+            component: BookingDetail,
+            route: Route,
+        }
+    ]
 };
 
 // auth
@@ -182,6 +249,12 @@ const authRoutes = {
             component: ForgetPassword,
             route: Route,
         },
+        {
+            path: '/account',
+            name: 'My Account',
+            component: MyAccount,
+            route: Route,
+        },
     ],
 };
 
@@ -204,25 +277,24 @@ const flattenRoutes = routes => {
 const allRoutes = [
     rootRoute,
     dashboardRoutes,
-    guestRoutes, 
+    newPropertiesRoute,
+    propertiesRoutes,
     listingsRoutes, 
-    listingDetailRoutes,
+    guestRoutes, 
     calendarAppRoutes, 
     channelsRoutes, 
     bookingsRoutes,
-    bookingDetailRoutes,
     authRoutes,
 ];
 
 const authProtectedRoutes = [
     dashboardRoutes, 
+    propertiesRoutes,
+    listingsRoutes,
     guestRoutes, 
-    listingsRoutes, 
-    listingDetailRoutes,
     calendarAppRoutes, 
     channelsRoutes, 
     bookingsRoutes,
-    bookingDetailRoutes
 ];
 
 const allFlattenRoutes = flattenRoutes(allRoutes);

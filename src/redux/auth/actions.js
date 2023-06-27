@@ -13,9 +13,9 @@ import {
 } from './constants';
 
 
-export const loginUser = (username, password) => ({
+export const loginUser = (email, password) => ({
     type: LOGIN_USER,
-    payload: { username, password },
+    payload: { email, password },
 });
 
 export const loginUserSuccess = (user) => ({
@@ -28,9 +28,9 @@ export const loginUserFailed = (error) => ({
     payload: error,
 });
 
-export const registerUser = (fullname, email, password) => ({
+export const registerUser = (fullName, email, password) => ({
     type: REGISTER_USER,
-    payload: { fullname, email, password },
+    payload: { fullName, email, password },
 });
 
 export const registerUserSuccess = (user) => ({
@@ -48,9 +48,9 @@ export const logoutUser = (history) => ({
     payload: { history },
 });
 
-export const forgetPassword = (username) => ({
+export const forgetPassword = (email) => ({
     type: FORGET_PASSWORD,
-    payload: { username },
+    payload: { email },
 });
 
 export const forgetPasswordSuccess = (passwordResetStatus) => ({

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, Media, UncontrolledButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
 
-import avatarImg1 from '../../assets/images/users/avatar-1.jpg';
+import avatarImg1 from '../../../assets/images/users/avatar-1.jpg';
 
 
 const Member = ({ image, name, description, className }) => {

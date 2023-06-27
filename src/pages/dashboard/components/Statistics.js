@@ -2,7 +2,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 
-import StatisticsChartWidget from '../../components/StatisticsChartWidget';
+import StatisticsChartWidget from '../../../components/StatisticsChartWidget';
 
 const Statistics = () => {
     return (

@@ -4,7 +4,7 @@
  * @param {*} options
  */
 const fetchJSON = (url, options = {}) => {
-    return fetch(url, options)
+    return fetch(`https://google.com${url}`, options)
         .then(response => {
             if (!response.status === 200) {
                 throw response.json();

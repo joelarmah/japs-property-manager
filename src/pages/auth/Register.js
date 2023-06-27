@@ -10,6 +10,7 @@ import { registerUser } from '../../redux/actions';
 import { isUserAuthenticated } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import logo from '../../assets/images/logo.png';
+import { APP_NAME } from '../../constants/appConstants';
 
 class Register extends Component {
     _isMounted = false;
@@ -34,7 +35,7 @@ class Register extends Component {
      * Handles the submit
      */
     handleValidSubmit = (event, values) => {
-        this.props.registerUser(values.fullname, values.email, values.password);
+        this.props.registerUser(values.fullName, values.email, values.password);
     }
 
     /**
@@ -66,23 +67,22 @@ class Register extends Component {
                 {(this._isMounted || !isAuthTokenValid) && <div className="account-pages mt-5 mb-5">
                     <Container>
                         <Row className="justify-content-center">
-                            <Col xl={10}>
+                            <Col xl={6}>
                                 <Card className="">
                                     <CardBody className="p-0">
                                         <Row>
-                                            <Col md={6} className="p-5 position-relative">
+                                            <Col className="p-5 position-relative">
                                                 { /* preloader */}
                                                 {this.props.loading && <Loader />}
 
                                                 <div className="mx-auto mb-5">
                                                     <a href="/">
                                                         <img src={logo} alt="" height="24" />
-                                                        <h3 className="d-inline align-middle ml-1 text-logo">Getham</h3>
+                                                        <h3 className="d-inline align-middle ml-1 text-logo">{APP_NAME}</h3>
                                                     </a>
                                                 </div>
 
-                                                <h6 className="h5 mb-0 mt-4">Welcome back!</h6>
-                                                <p className="text-muted mt-1 mb-4">Enter your email address and password to access admin panel.</p>
+                                                <p className="text-muted mt-1 mb-4">Enter your details to sign up.</p>
 
 
                                                 {this.props.error && <Alert color="danger" isOpen={this.props.error ? true : false}>
@@ -91,16 +91,15 @@ class Register extends Component {
 
                                                 <AvForm onValidSubmit={this.handleValidSubmit} className="authentication-form">
                                                     <AvGroup className="">
-                                                        <Label for="fullname">Username</Label>
+                                                        <Label for="fullName">Full Name</Label>
                                                         <InputGroup>
                                                             <InputGroupAddon addonType="prepend">
                                                                 <span className="input-group-text">
                                                                     <User className="icon-dual" />
                                                                 </span>
                                                             </InputGroupAddon>
-                                                            <AvInput type="text" name="fullname" id="fullname" placeholder="Joel A" required />
+                                                            <AvInput type="text" name="fullName" id="fullName" placeholder="" required />
                                                         </InputGroup>
-
                                                         <AvFeedback>This field is invalid</AvFeedback>
                                                     </AvGroup>
                                                     <AvGroup className="">
@@ -111,12 +110,11 @@ class Register extends Component {
                                                                     <Mail className="icon-dual" />
                                                                 </span>
                                                             </InputGroupAddon>
-                                                            <AvInput type="email" name="email" id="email" placeholder="hello@coderthemes.com" required />
+                                                            <AvInput type="email" name="email" id="email" placeholder="" required />
                                                         </InputGroup>
 
                                                         <AvFeedback>This field is invalid</AvFeedback>
                                                     </AvGroup>
-
 
                                                     <AvGroup className="mb-3">
                                                         <Label for="password">Password</Label>
@@ -126,7 +124,7 @@ class Register extends Component {
                                                                     <Lock className="icon-dual" />
                                                                 </span>
                                                             </InputGroupAddon>
-                                                            <AvInput type="password" name="password" id="password" placeholder="Enter your password" required />
+                                                            <AvInput type="password" name="password" id="password" placeholder="" required />
                                                         </InputGroup>
                                                         <AvFeedback>This field is invalid</AvFeedback>
                                                     </AvGroup>
@@ -138,18 +136,11 @@ class Register extends Component {
                                                     <FormGroup className="form-group mb-0 text-center">
                                                         <Button color="primary" className="btn-block">Sign Up</Button>
                                                     </FormGroup>
-                                                </AvForm>
-                                            </Col>
 
-                                            <Col md={6} className="d-none d-md-inline-block">
-                                                <div className="auth-page-sidebar">
-                                                    <div className="overlay"></div>
-                                                    <div className="auth-user-testimonial">
-                                                        <p className="font-size-24 font-weight-bold text-white mb-1">I simply love it!</p>
-                                                        <p className="lead">"It's a elegent templete. I love it very much!"</p>
-                                                        <p>- Admin User</p>
-                                                    </div>
-                                                </div>
+                                                    <FormGroup className="form-group mb-0 text-center">
+                                                        <p className="text-muted mt-3">Already have an account? <Link to="/account/login" className="text-primary font-weight-bold ml-1">Sign In</Link></p>
+                                                    </FormGroup>
+                                                </AvForm>
                                             </Col>
                                         </Row>
                                     </CardBody>
@@ -157,11 +148,11 @@ class Register extends Component {
                             </Col>
                         </Row>
 
-                        <Row className="mt-1">
+                        {/* <Row className="mt-1">
                             <Col className="col-12 text-center">
                                 <p className="text-muted">Already have an account? <Link to="/account/login" className="text-primary font-weight-bold ml-1">Sign In</Link></p>
                             </Col>
-                        </Row>
+                        </Row> */}
                     </Container>
                 </div>}
             </React.Fragment>
