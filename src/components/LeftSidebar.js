@@ -69,7 +69,6 @@ class LeftSidebar extends Component {
         return (
             <>
                 <div className='left-side-menu' ref={node => this.menuNodeRef = node}>
-                    {/* <UserProfile /> */}
                     {!isCondensed && <PerfectScrollbar><SideNav /></PerfectScrollbar>}
                     {isCondensed && <SideNav />}
                 </div>

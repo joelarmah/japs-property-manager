@@ -1,9 +1,8 @@
 import React from 'react';
 
-import ChatList from '../../components/ChatList';
-
-import profilePic from '../../assets/images/users/avatar-1.jpg';
-import profilePic2 from '../../assets/images/users/avatar-1.jpg';
+import ChatList from '../../../components/ChatList'
+import profilePic from '../../../assets/images/users/avatar-1.jpg';
+import profilePic2 from '../../../assets/images/users/avatar-1.jpg';
 
 
 const Chat = () => {

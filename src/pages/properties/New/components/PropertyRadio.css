@@ -1,0 +1,32 @@
+input[type="radio"].custom-radio {
+	visibility: hidden;
+	height: 0;
+	width: 0;
+  }
+  
+  input[type="radio"].custom-radio + label {
+	border-color: transparent;
+	box-shadow: 0 0 0 2px #DDDDDD;
+	background-color: #F7F7F7;
+	padding: 1rem 1rem;
+	border-radius: 0.3rem;
+	text-align: center;
+	cursor: pointer;
+	transition: all .3s ease-out;
+	margin-bottom: 1rem;
+	width: 100%;
+  }
+  
+  input[type="radio"].custom-radio:checked + label {
+	box-shadow: 0 0 0 2px #000;
+	background-color: transparent;
+  }
+
+  input[type="radio"].custom-radio + label span .text {
+	font-size: 1rem;
+	padding-left: 0.5rem;
+   }
+  
+  input[type="radio"].custom-radio + label .icon {
+   font-size: 1.2rem;
+  }

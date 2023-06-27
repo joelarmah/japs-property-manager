@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { changeLayout } from '../redux/actions';
 import * as layoutConstants from '../constants/layout';
 
-import ThemeCustomizer from '../components/ThemeCustomizer';
-
 // code splitting and lazy loading
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const Topbar = React.lazy(() => import("../components/Topbar"));
@@ -72,7 +70,6 @@ class HorizontalLayout extends Component {
 
                 <Suspense fallback={loading()}>
                     <RightSidebar title="Customize" {...this.props}>
-                        <ThemeCustomizer />
                     </RightSidebar>
                 </Suspense>
             </React.Fragment>

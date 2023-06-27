@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap';
 import { ChevronDown } from 'react-feather';
+import ProfilePhoto from './ProfilePhoto.js'
+import { getLoggedInUser } from '../helpers/authUtils.js';
 
 class ProfileDropdown extends Component {
     constructor(props) {
@@ -9,8 +11,10 @@ class ProfileDropdown extends Component {
 
         this.toggleDropdown = this.toggleDropdown.bind(this);
         this.state = {
-            dropdownOpen: false
+            dropdownOpen: false,
+            user: getLoggedInUser()
         };
+
     }
 
     /*:: toggleDropdown: () => void */
@@ -21,7 +25,7 @@ class ProfileDropdown extends Component {
     }
 
     render() {
-        const profilePic = this.props.profilePic || null;
+        // const profilePic = this.props.profilePic || null;
         const tag = this.props.tag || "div";
 
         return (
@@ -33,7 +37,9 @@ class ProfileDropdown extends Component {
                     onClick={this.toggleDropdown} aria-expanded={this.state.dropdownOpen}>
 
                     <div className="media user-profile ">
-                        <img src={profilePic} alt={this.props.username} className="rounded-circle align-self-center" />
+                    <ProfilePhoto profilePhoto={this.state.user.profilePhoto} name={this.state.user.name}></ProfilePhoto>
+                        {/* { !profilePic && <i className="uil uil-user profile-photo"></i> }
+                        { profilePic && <img src={profilePic} alt={this.props.username} className="rounded-circle align-self-center" /> } */}
                         <div className="media-body text-left">
                             <h6 className="pro-user-name ml-2 my-0">
                                 <span>{this.props.username}</span>

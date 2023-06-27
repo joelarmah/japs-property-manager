@@ -14,7 +14,7 @@ const TargetChart = () => {
         plotOptions: {
             bar: {
                 horizontal: false,
-                columnWidth: '45%',
+                columnWidth: '60%',
             },
         },
         dataLabels: {
@@ -40,33 +40,33 @@ const TargetChart = () => {
                 opacity: 0.2,
             },
             borderColor: '#f3f4f7',
+            show: false
         },
         tooltip: {
             y: {
                 formatter: function(val) {
-                    return '$ ' + val + ' thousands';
+                    return '¢' + val;
                 },
             },
         },
     };
 
     const data = [
-        {
-            name: 'Net Profit',
-            data: [35, 44, 55, 57, 45, 32, 24],
-        },
+        // {
+        //     name: 'Net Profit',
+        //     data: [35, 44, 55, 57, 45, 32, 24],
+        // },
         {
             name: 'Revenue',
-            data: [52, 76, 85, 101, 86, 72, 56],
+            data: [52, 76, 85, 101, 86, 72],
         },
     ];
 
     return (
-        <Card>
-            <CardBody className="pb-0">
-                <h5 className="card-title header-title">Targets</h5>
-
-                <Chart options={options} series={data} type="bar" className="apex-charts mt-3" height={296} />
+        <Card className="shadow-none">
+            <CardBody className="p-0">
+                {/* <h5 className="card-title header-title">Targets</h5> */}
+                <Chart options={options} series={data} type="bar" className="apex-charts mt-3" height={200} />
             </CardBody>
         </Card>
     );

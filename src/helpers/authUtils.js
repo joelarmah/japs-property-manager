@@ -1,6 +1,7 @@
 // @flow
 import jwtDecode from 'jwt-decode';
 import { Cookies } from 'react-cookie';
+import { logoutUser } from '../redux/actions';
 
 /**
  * Checks if user is authenticated
@@ -13,11 +14,13 @@ const isUserAuthenticated = () => {
     const decoded = jwtDecode(user.token);
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
+        logoutUser();
         console.warn('access token expired');
         return false;
     } else {
         return true;
     }
+   //  return true
 };
 
 /**
