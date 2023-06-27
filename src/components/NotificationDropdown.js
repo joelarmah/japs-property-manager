@@ -79,7 +79,7 @@ class NotificationDropdown extends Component {
                 </DropdownMenu>
             </Dropdown>
 
-            <UncontrolledTooltip placement="left" target="notiDropdown">{this.props.notifications.length} new unread notificationse</UncontrolledTooltip>
+            <UncontrolledTooltip placement="left" target="notiDropdown">{this.props.notifications.length} new unread notifications</UncontrolledTooltip>
             </React.Fragment>
         );
     }

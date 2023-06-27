@@ -9,6 +9,9 @@ import { Mail } from 'react-feather';
 import { isUserAuthenticated } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import logo from '../../assets/images/logo.png';
+import { APP_NAME } from '../../constants/appConstants';
+
+import { forgetPassword } from '../../redux/actions';
 
 class ForgetPassword extends Component {
     _isMounted = false;
@@ -45,17 +48,13 @@ class ForgetPassword extends Component {
      * Handles the submit
      */
     handleValidSubmit = (event, values) => {
-        console.log(values);
-        
-        this.setState({ isLoading: true });
-
-        // You can make actual api call to register here
-
-        window.setTimeout(() => {
-            this.setState({ isLoading: false, passwordResetSuccessful: true });
-        }, 1000)
+        // this.setState({ isLoading: true });
+        // // You can make actual api call to register here
+        // window.setTimeout(() => {
+        //     this.setState({ isLoading: false, passwordResetSuccessful: true });
+        // }, 1000)
+        this.props.forgetPassword(values.email);
     }
-
 
     /**
      * Redirect to root
@@ -77,18 +76,18 @@ class ForgetPassword extends Component {
                 {(this._isMounted || !isAuthTokenValid) && <div className="account-pages my-5">
                     <Container>
                     <Row className="justify-content-center">
-                            <Col xl={10}>
+                            <Col xl={6}>
                                 <Card className="">
                                     <CardBody className="p-0">
                                         <Row>
-                                            <Col md={6} className="p-5 position-relative">
+                                            <Col className="p-5 position-relative">
                                                 { /* preloader */}
                                                 {this.state.isLoading && <Loader />}
 
                                                 <div className="mx-auto mb-5">
                                                     <a href="/">
                                                         <img src={logo} alt="" height="24" />
-                                                        <h3 className="d-inline align-middle ml-1 text-logo">Getham</h3>
+                                                        <h3 className="d-inline align-middle ml-1 text-logo">{APP_NAME}</h3>
                                                     </a>
                                                 </div>
 
@@ -111,7 +110,7 @@ class ForgetPassword extends Component {
                                                                     <Mail className="icon-dual" />
                                                                 </span>
                                                             </InputGroupAddon>
-                                                            <AvInput type="text" name="email" id="email" placeholder="hello@coderthemes.com" 
+                                                            <AvInput type="text" name="email" id="email" placeholder="" 
                                                                 value={this.state.email} required />
                                                         </InputGroup>
                                                         
@@ -122,18 +121,11 @@ class ForgetPassword extends Component {
                                                     <FormGroup className="form-group mb-0 text-center">
                                                         <Button color="primary" className="btn-block">Submit</Button>
                                                     </FormGroup>
-                                                </AvForm>
-                                            </Col>
 
-                                            <Col md={6} className="d-none d-md-inline-block">
-                                                <div className="auth-page-sidebar">
-                                                    <div className="overlay"></div>
-                                                    <div className="auth-user-testimonial">
-                                                        <p className="font-size-24 font-weight-bold text-white mb-1">I simply love it!</p>
-                                                        <p className="lead">"It's a elegent templete. I love it very much!"</p>
-                                                        <p>- Admin User</p>
-                                                    </div>
-                                                </div>
+                                                    <FormGroup>
+                                                        <p className="texttext-muted mt-3">Back to <Link to="/account/login" className="text-primary font-weight-bold ml-1">Login</Link></p>
+                                                    </FormGroup>
+                                                </AvForm>
                                             </Col>
                                         </Row>
                                     </CardBody>
@@ -141,11 +133,6 @@ class ForgetPassword extends Component {
                             </Col>
                         </Row>
 
-                        <Row className="mt-1">
-                            <Col className="col-12 text-center">
-                                <p className="texttext-muted">Back to <Link to="/account/login" className="text-primary font-weight-bold ml-1">Login</Link></p>
-                            </Col>
-                        </Row>
                     </Container>
                 </div>}
             </React.Fragment>
@@ -153,4 +140,9 @@ class ForgetPassword extends Component {
     }
 }
 
-export default connect()(ForgetPassword);
+const mapStateToProps = (state) => {
+    const { email, loading, error } = state.Auth;
+    return { email, loading, error };
+};
+
+export default connect(mapStateToProps, { forgetPassword })(ForgetPassword);

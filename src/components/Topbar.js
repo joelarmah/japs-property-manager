@@ -2,15 +2,17 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container } from 'reactstrap';
-import { Menu, X, Search, Settings, User, HelpCircle, Lock, LogOut } from 'react-feather';
+import { Menu, X, Search, Settings, User, HelpCircle, LogOut } from 'react-feather';
 
 import { showRightSidebar } from '../redux/actions';
 import NotificationDropdown from './NotificationDropdown';
 import ProfileDropdown from './ProfileDropdown';
-import LanguageDropdown from './LanguageDropdown';
+// import LanguageDropdown from './LanguageDropdown';
 
 import logo from '../assets/images/logo.png';
-import profilePic from '../assets/images/users/avatar-1.jpg';
+// import profilePic from '../assets/images/users/avatar-1.jpg';
+import { APP_NAME } from "../constants/appConstants";
+import { getLoggedInUser } from "../helpers/authUtils";
 
 
 const Notifications = [{
@@ -44,23 +46,23 @@ const Notifications = [{
 const ProfileMenus = [{
   label: 'My Account',
   icon: User,
-  redirectTo: "/",
+  redirectTo: "/account",
 },
 {
   label: 'Settings',
   icon: Settings,
-  redirectTo: "/"
+  redirectTo: "/account/settings"
 },
 {
   label: 'Support',
   icon: HelpCircle,
-  redirectTo: "/"
+  redirectTo: "/support"
 },
-{
-  label: 'Lock Screen',
-  icon: Lock,
-  redirectTo: "/"
-},
+// {
+//   label: 'Lock Screen',
+//   icon: Lock,
+//   redirectTo: "/"
+// },
 {
   label: 'Logout',
   icon: LogOut,
@@ -74,6 +76,10 @@ class Topbar extends Component {
     super(props);
 
     this.handleRightSideBar = this.handleRightSideBar.bind(this);
+    this.state = {
+      user: getLoggedInUser()
+    };
+
   }
 
   /**
@@ -92,7 +98,7 @@ class Topbar extends Component {
             <Link to="/" className="navbar-brand mr-0 mr-md-2 logo">
               <span className="logo-lg">
                 <img src={logo} alt="" height="24" />
-                <span className="d-inline h5 ml-2 text-logo">Getham</span>
+                <span className="d-inline h5 ml-2 text-logo">{APP_NAME}</span>
               </span>
               <span className="logo-sm">
                 <img src={logo} alt="" height="24" />
@@ -123,17 +129,17 @@ class Topbar extends Component {
                 </div>
               </li>
 
-              <LanguageDropdown tag="li" />
+              {/* <LanguageDropdown tag="li" /> */}
 
               <NotificationDropdown notifications={Notifications} />
 
-              <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={'Joel Armah'} description="Administrator" />
+              <ProfileDropdown user={this.state.user} profilePic={this.state.user.profilePhoto} menuItems={ProfileMenus} username={this.state.user.name} description={this.state.user.role} />
 
-              <li className="notification-list">
+              {/* <li className="notification-list">
                 <button className="btn btn-link nav-link right-bar-toggle" onClick={this.handleRightSideBar}>
                   <Settings />
                 </button>
-              </li>
+              </li> */}
 
               {/* <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={'Joel Armah'} description="Administrator" /> */}
 
