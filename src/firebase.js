@@ -10,7 +10,8 @@ import {
   updateProfile,
   sendEmailVerification,
 } from 'firebase/auth';
-import { getFirestore, query, getDocs, collection, where, addDoc, setDoc, doc } from 'firebase/firestore';
+import { getFirestore, query, getDocs, collection, where, addDoc, setDoc, doc, deleteDoc, Timestamp, updateDoc } from 'firebase/firestore';
+import { PROPERTIES } from './constants/firebaseConstants';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -91,18 +92,6 @@ const getNewUser = (user, fullName) => {
   };
 }
 
-// const updateUserPhotoUrl = async (photoUrl) => {
-//   updateProfile(auth.currentUser, {
-//     photoURL: photoUrl,
-//   })
-//     .then(() => {
-//       return auth.currentUser;
-//     })
-//     .catch((error) => {
-//       throw handleFirebaseError(error);
-//     });
-// };
-
 const updateUserDisplayName = async (user, fullName) => {
   updateProfile(user, { displayName: fullName, photoURL: null })
     .then(() => {
@@ -124,6 +113,59 @@ const sendPasswordReset = async (email) => {
 const logout = () => {
   signOut(auth);
 };
+
+const addProperty = async (property) => {
+  // const { location } = property;
+
+  try {
+    // const propertyRef = await addDoc(collection(db, PROPERTIES), {
+    //   propertyType: property.propertyType,
+    //   structureType: property.structureType,
+    //   location: {
+    //     address1: location.address1,
+    //     address2: location.address2,
+    //     city: location.city,
+    //     region: location.region
+    //   },
+    //   createdAt: Timestamp.fromDate(new Date())
+    // });
+
+    // Add a new document with a generated id
+    const propertyRef = doc(collection(db, PROPERTIES));
+    await setDoc(propertyRef, {...property, createdAt: Timestamp.fromDate(new Date())});
+
+    console.log(`Propert Ref ==> ${JSON.stringify(propertyRef)}`)
+  } catch (err) {
+    throw handleFirebaseError(err);
+  }
+};
+
+const fetchProperties = async () => {
+  try {
+    const docSnap = await getDocs(collection(db, PROPERTIES));
+    return docSnap.docs.map((doc) => ({...doc.data(), id:doc.id }));
+  } catch (err) {
+    throw handleFirebaseError(err);
+  }
+}
+
+const deleteProperty = async(propertyId) => {
+  try {
+    const db = getFirestore(); const docRef = doc(db, PROPERTIES, propertyId); 
+    return deleteDoc(docRef);
+  } catch (err) {
+    throw handleFirebaseError(err);
+  }
+}
+
+const updateProperty = async(propertyId, data) => {
+  const propertyRef = doc(db, "id", propertyId);
+  try {
+    updateDoc(propertyRef, {...data});
+  } catch (err) {
+    throw handleFirebaseError(err);
+  }
+}
 
 function handleFirebaseError(error) {
   let errorMessage = '';
@@ -150,4 +192,8 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
+  addProperty,
+  fetchProperties,
+  deleteProperty,
+  updateProperty
 };

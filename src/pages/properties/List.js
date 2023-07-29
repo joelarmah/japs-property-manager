@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Row,
   Col,
@@ -18,13 +18,17 @@ import { Loader } from 'react-feather';
 import { Link } from 'react-router-dom';
 
 import listing1 from '../../assets/images/listings/listing-1.jpg';
-import { properties } from './data';
+// import { properties } from './data';
+import { deleteProperty, fetchProperties } from '../../firebase';
 
 // single listing
-const PropertyItem = ({property}) => {
+const PropertyItem = ({property, onDeleteProperty}) => {
+
+  const title = `${property.propertyType} ${property.structureType} in ${property.location.city}`;
+
   return (
     <Card className="profile-widget">
-      <img src={listing1} alt={property.title} className="card-img-top" />
+      <img src={listing1} alt={title} className="card-img-top" />
 
       <UncontrolledDropdown className="card-action float-right">
         <DropdownToggle tag="button" className="dropdown-toggle arrow-none btn btn-link text-white p-0">
@@ -38,7 +42,7 @@ const PropertyItem = ({property}) => {
             <i className="uil uil-refresh mr-2"></i>Refresh
           </DropdownItem> */}
           <DropdownItem divider />
-          <DropdownItem className="text-danger">
+          <DropdownItem onClick={onDeleteProperty} className="text-danger">
             <i className="uil uil-trash mr-2"></i>Delete
           </DropdownItem>
         </DropdownMenu>
@@ -46,24 +50,24 @@ const PropertyItem = ({property}) => {
       <CardBody>
         <div
           className={classNames('badge', 'float-right', {
-            'badge-success': property.state === 'Finished',
-            'badge-warning': property.state === 'Ongoing',
-            'badge-info': property.state === 'Planned',
+            'badge-success': property.state === 'Occupied',
+            'badge-warning': property.state === 'Vacant',
+            'badge-info': property.state === 'Maintenance',
           })}>
           {property.state}
         </div>
         <p
           className={classNames('text-uppercase', 'font-size-12', 'mb-2', {
-            'text-success': property.state === 'Finished',
-            'text-warning': property.state === 'Ongoing',
-            'text-info': property.state === 'Planned',
+            'text-success': property.state === 'Occupied',
+            'text-warning': property.state === 'Vacant',
+            'text-info': property.state === 'Maintenance',
           })}>
           {property.category}
         </p>
 
         <h5>
           <a href={"/properties/" + property.id} className="text-dark">
-            {property.title}
+            {title}
           </a>
         </h5>
 
@@ -142,6 +146,26 @@ const PropertyItem = ({property}) => {
 
 const Properties = () => {
 
+  const [loading, setLoading] = useState(false);
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchProperties().then(res => {
+      console.log('res ==>', res);
+      setLoading(false);
+      setProperties(res);
+    });
+  }, [])
+
+  const onPropertyDelete = (propertyId) => {
+    deleteProperty(propertyId).then(res => {
+      // const newProperties = properties.filter(property.id !== propertyId)
+      setProperties(prevData => {prevData.filter(property => property.id !== propertyId)})
+    });
+    properties.slice();
+  }
+
   return (
     <>
       <Row className="page-title">
@@ -191,25 +215,31 @@ const Properties = () => {
         </Col>
       </Row>
 
+      {(properties.length === 0 && !loading) && <Row>
+        <Col lg={4} xl={3}>
+          <p>You have no properties</p>
+        </Col>
+      </Row>}
+
       <Row>
         {properties.map((property, i) => {
           return (
             <Col lg={4} xl={3} key={'property-' + property.id}>
-              <PropertyItem property={property} />
+              <PropertyItem property={property} onDeleteProperty={() => onPropertyDelete(property.id)} />
             </Col>
           );
         })}
       </Row>
 
-      <Row className="mb-3 mt-2">
+      {loading && <Row className="mb-3 mt-2">
         <Col>
           <div className="text-center">
             <Button color="white">
-              <Loader className="icon-dual icon-xs mr-2"></Loader>Load more
+              <Loader className="icon-dual icon-xs mr-2"></Loader>Loading
             </Button>
           </div>
         </Col>
-      </Row>
+      </Row>}
     </>
   );
 };

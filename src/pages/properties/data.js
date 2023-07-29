@@ -197,4 +197,20 @@ const structureType = [
   }
 ]
 
-export { properties, propertyType, structureType };
+const state = [
+  {
+    name: "Occupied",
+    icon: "home-alt"
+  },
+  {
+    name: "Vacant",
+    icon: "bed-double"
+  },
+  {
+    name: "Maintenance",
+    icon: "shop"
+  }
+]
+
+
+export { properties, propertyType, structureType, state };

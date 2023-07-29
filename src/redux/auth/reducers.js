@@ -19,7 +19,6 @@ const INIT_STATE = {
     loading: false,
 };
 
-
 const Auth = (state = INIT_STATE, action) => {
     switch (action.type) {
         case LOGIN_USER:
